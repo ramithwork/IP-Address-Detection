@@ -113,8 +113,29 @@ async function showPlaceData(latitude, longitude) {
     }
     const data = await response.json()
     console.log(data)
-    // BOOKMARK
     // Process and display the place data as needed
+    document.getElementById('place-data').innerHTML = `
+        address.city: ${data.address.city}<br>
+        address.country: ${data.address.country}<br>
+        address.country.code: ${data.address.country.code}<br>
+        address.postcode: ${data.address.postcode}<br>
+        address.road: ${data.address.road}<br>
+        address.state: ${data.address.state}<br>
+        address.suburb: ${data.address.suburb}<br>
+        address.village: ${data.address.village}<br>
+        addresstype: ${data.addresstype}<br>
+        category: ${data.category}<br>
+        display_name: ${data.display_name}<br>
+        importance: ${data.importance}<br>
+        lat: ${data.lat}<br>
+        licence: ${data.licence}<br>
+        name: ${data.name}<br>
+        osm_id: ${data.osm_id}<br>
+        osm_type: ${data.osm_type}<br>
+        place_id: ${data.place_id}<br>
+        place_rank: ${data.place_rank}<br>
+        type: ${data.type}<br>
+    `
 }
 
 // Call the geolocate function when your page loads or when a user interacts
