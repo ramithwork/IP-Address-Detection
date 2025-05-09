@@ -23,7 +23,7 @@ async function processQuery(query) {
         return
     } else {
         const data = await response.json()
-        console.log(response.status)
+        // console.log(response.status)
         resultElm.innerHTML = 
         `
             cityName: ${data.cityName}<br>
@@ -46,7 +46,7 @@ async function processQuery(query) {
             zipCode: ${data.zipCode}<br>
         `
         queryElm.value = data.ipAddress
-        console.log(data)
+        // console.log(data)
     }
 }
 
@@ -70,7 +70,7 @@ function geolocate() {
 }
 
 function successCallback(position) {
-    console.log(position)
+    // console.log(position)
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
     const accuracy = position.coords.accuracy
@@ -79,9 +79,9 @@ function successCallback(position) {
     const speed = position.coords.speed
 
     
-    console.log("Latitude:", latitude)
-    console.log("Longitude:", longitude)
-    console.log("Accuracy:", accuracy, "meters")
+    // console.log("Latitude:", latitude)
+    // console.log("Longitude:", longitude)
+    // console.log("Accuracy:", accuracy, "meters")
     
     geoLocationElm.innerHTML = `
         Latitude: ${latitude}<br>
@@ -92,7 +92,7 @@ function successCallback(position) {
         Speed: ${speed} meters/second
     `
 
-    console.log("Coordinates: *********", latitude, longitude)
+    // console.log("Coordinates: *********", latitude, longitude)
     showPlaceData(latitude, longitude)
 
     // You can now use these coordinates to:
@@ -119,7 +119,7 @@ async function showPlaceData(latitude, longitude) {
         return
     }
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
     // Process and display the place data as needed
     document.getElementById('place-data').innerHTML = `
         address.city: ${data.address.city}<br>
@@ -135,6 +135,7 @@ async function showPlaceData(latitude, longitude) {
         display_name: ${data.display_name}<br>
         importance: ${data.importance}<br>
         lat: ${data.lat}<br>
+        lon: ${data.lon}<br>
         licence: ${data.licence}<br>
         name: ${data.name}<br>
         osm_id: ${data.osm_id}<br>
@@ -165,7 +166,7 @@ function watchPosition() {
 }
 
 function success(position) {
-    console.log("WatchPosition", position)
+    // console.log("WatchPosition", position)
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
     const accuracy = position.coords.accuracy
@@ -173,9 +174,9 @@ function success(position) {
     const heading = position.coords.heading
     const speed = position.coords.speed
 
-    console.log("Latitude:", latitude)
-    console.log("Longitude:", longitude)
-    console.log("Accuracy:", accuracy, "meters")
+    // console.log("Latitude:", latitude)
+    // console.log("Longitude:", longitude)
+    // console.log("Accuracy:", accuracy, "meters")
 
     watchPositionElm.innerHTML = `
         Live Latitude: ${latitude}<br>
