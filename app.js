@@ -51,9 +51,11 @@ async function processQuery(query) {
 }
 
 
+
 // GEO LOCATION
 const geoLocationElm = document.getElementById('geolocation')
 function geolocate() {
+    geoLocationElm.innerHTML = 'Loading...'
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, {
       enableHighAccuracy: true, // Try for more accurate results
@@ -100,3 +102,40 @@ function errorCallback(error) {
 
 // Call the geolocate function when your page loads or when a user interacts
 geolocate();
+
+// WatchPosition
+const watchPositionElm = document.getElementById('watch-position')
+function watchPosition() {
+    watchPositionElm.innerHTML = 'Loading...'
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(success, error, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        });
+    } else {
+        console.log("Geolocation is not supported by this browser.")
+        watchPositionElm.innerHTML = "Geolocation is not supported by this browser."
+    }
+}
+
+function success(position) {
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
+    const accuracy = position.coords.accuracy
+
+    console.log("Latitude:", latitude)
+    console.log("Longitude:", longitude)
+    console.log("Accuracy:", accuracy, "meters")
+
+    watchPositionElm.innerHTML = `
+        Latitude: ${latitude}<br>
+        Longitude: ${longitude}<br>
+        Accuracy: ${accuracy} meters
+    `
+}
+function error(error) {
+    watchPositionElm.innerHTML = "Error: " + error.message
+    console.warn("ERROR(" + error.code + "): " + error.message)
+}
+watchPosition()
