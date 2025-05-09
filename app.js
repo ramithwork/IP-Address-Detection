@@ -3,12 +3,32 @@
 const resultElm = document.getElementById('result')
 const queryElm = document.getElementById('query')
 const lookupElm = document.getElementById('lookup')
+const clearWatchElm = document.getElementById('clear-watch')
+
+let watchPositionId = null
 
 processQuery(queryElm.value.trim())
 
 lookupElm.addEventListener('click', (event) => {
     event.preventDefault()
     processQuery(queryElm.value.trim())
+})
+
+clearWatchElm.addEventListener('click', () => {
+    if (clearWatchElm.innerText === 'CLEAR WATCH') {
+        if (navigator.geolocation) {
+        navigator.geolocation.clearWatch(watchPositionId)
+        watchPositionElm.innerHTML = 'Watch position cleared.'
+        clearWatchElm.innerText = "START WATCH"
+        } else {
+            console.log("Geolocation is not supported by this browser.")
+            watchPositionElm.innerHTML = "Geolocation is not supported by this browser."
+        }
+    }
+    else {
+        watchPosition()
+        clearWatchElm.innerText = "CLEAR WATCH"
+    }
 })
 
 async function processQuery(query) {
@@ -186,6 +206,7 @@ function success(position) {
         Heading: ${heading} degrees<br>
         Speed: ${speed} meters/second
     `
+    watchPositionId = position.coords.watchPositionId
 }
 function error(error) {
     watchPositionElm.innerHTML = "Error: " + error.message
