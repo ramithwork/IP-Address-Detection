@@ -70,28 +70,35 @@ function geolocate() {
 }
 
 function successCallback(position) {
-  const latitude = position.coords.latitude
-  const longitude = position.coords.longitude
-  const accuracy = position.coords.accuracy
+    console.log(position)
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
+    const accuracy = position.coords.accuracy
+    const altitude = position.coords.altitude
+    const heading = position.coords.heading
+    const speed = position.coords.speed
 
-  
-  console.log("Latitude:", latitude)
-  console.log("Longitude:", longitude)
-  console.log("Accuracy:", accuracy, "meters")
-  
-  geoLocationElm.innerHTML = `
-  Latitude: ${latitude}<br>
-  Longitude: ${longitude}<br>
-  Accuracy: ${accuracy} meters
-  `
+    
+    console.log("Latitude:", latitude)
+    console.log("Longitude:", longitude)
+    console.log("Accuracy:", accuracy, "meters")
+    
+    geoLocationElm.innerHTML = `
+        Latitude: ${latitude}<br>
+        Longitude: ${longitude}<br>
+        Accuracy: ${accuracy} meters<br>
+        Altitude: ${altitude} meters<br>
+        Heading: ${heading} degrees<br>
+        Speed: ${speed} meters/second
+    `
 
-  console.log("Coordinates: *********", latitude, longitude)
-  showPlaceData(latitude, longitude)
+    console.log("Coordinates: *********", latitude, longitude)
+    showPlaceData(latitude, longitude)
 
-  // You can now use these coordinates to:
-  // 1. Display the location on a map (using a map library like Leaflet or Google Maps).
-  // 2. Send the coordinates to your server for further processing.
-  // 3. Find nearby places using a places API.
+    // You can now use these coordinates to:
+    // 1. Display the location on a map (using a map library like Leaflet or Google Maps).
+    // 2. Send the coordinates to your server for further processing.
+    // 3. Find nearby places using a places API.
 }
 
 function errorCallback(error) {
@@ -158,9 +165,13 @@ function watchPosition() {
 }
 
 function success(position) {
+    console.log("WatchPosition", position)
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
     const accuracy = position.coords.accuracy
+    const altitude = position.coords.altitude
+    const heading = position.coords.heading
+    const speed = position.coords.speed
 
     console.log("Latitude:", latitude)
     console.log("Longitude:", longitude)
@@ -169,7 +180,10 @@ function success(position) {
     watchPositionElm.innerHTML = `
         Live Latitude: ${latitude}<br>
         Live Longitude: ${longitude}<br>
-        Live Accuracy: ${accuracy} meters
+        Live Accuracy: ${accuracy} meters<br>
+        Altitude: ${altitude} meters<br>
+        Heading: ${heading} degrees<br>
+        Speed: ${speed} meters/second
     `
 }
 function error(error) {
