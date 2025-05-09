@@ -61,7 +61,7 @@ function geolocate() {
       enableHighAccuracy: true, // Try for more accurate results
       timeout: 5000,           // Maximum time to wait for a result (milliseconds)
       maximumAge: 0            // How long a cached result is considered valid (0 means always get a new one)
-    });
+    })
   } else {
     console.log("Geolocation is not supported by this browser.")
     geoLocationElm.innerHTML = "Geolocation is not supported by this browser."
@@ -74,15 +74,19 @@ function successCallback(position) {
   const longitude = position.coords.longitude
   const accuracy = position.coords.accuracy
 
+  
   console.log("Latitude:", latitude)
   console.log("Longitude:", longitude)
   console.log("Accuracy:", accuracy, "meters")
-
+  
   geoLocationElm.innerHTML = `
-    Latitude: ${latitude}<br>
-    Longitude: ${longitude}<br>
-    Accuracy: ${accuracy} meters
+  Latitude: ${latitude}<br>
+  Longitude: ${longitude}<br>
+  Accuracy: ${accuracy} meters
   `
+
+  console.log("Coordinates: *********", latitude, longitude)
+  showPlaceData(latitude, longitude)
 
   // You can now use these coordinates to:
   // 1. Display the location on a map (using a map library like Leaflet or Google Maps).
@@ -98,6 +102,19 @@ function errorCallback(error) {
   // 2: POSITION_UNAVAILABLE
   // 3: TIMEOUT
   // Optionally fall back to IP-based geolocation here
+}
+
+async function showPlaceData(latitude, longitude) {
+    const url = `https://nominatim.openstreetmap.org/reverse.php?lat=${latitude}&lon=${longitude}&zoom=18&format=jsonv2`
+    const response = await fetch(url)
+    if (!response.ok) {
+        console.error('Error fetching place data:', response.status)
+        return
+    }
+    const data = await response.json()
+    console.log(data)
+    // BOOKMARK
+    // Process and display the place data as needed
 }
 
 // Call the geolocate function when your page loads or when a user interacts
@@ -129,9 +146,9 @@ function success(position) {
     console.log("Accuracy:", accuracy, "meters")
 
     watchPositionElm.innerHTML = `
-        Latitude: ${latitude}<br>
-        Longitude: ${longitude}<br>
-        Accuracy: ${accuracy} meters
+        Live Latitude: ${latitude}<br>
+        Live Longitude: ${longitude}<br>
+        Live Accuracy: ${accuracy} meters
     `
 }
 function error(error) {
