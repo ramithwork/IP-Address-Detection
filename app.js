@@ -213,3 +213,24 @@ function error(error) {
     console.warn("ERROR(" + error.code + "): " + error.message)
 }
 watchPosition()
+
+
+
+// Battery Status API
+console.log(navigator.getBattery())
+console.log(navigator.getBattery().charging)
+
+function updateBatteryStatus(battery) {
+    const batteryDataElm = document.getElementById('battery-data')
+    batteryDataElm.innerHTML = `
+        charging: ${battery.charging}<br>
+        chargingTime: ${battery.chargingTime}<br>
+        dischargingTime: ${battery.dischargingTime}<br>
+        level: ${battery.level}<br>
+        onchargingchange: ${battery.onchargingchange}<br>
+        onchargingtimechange: ${battery.onchargingtimechange}<br>
+        ondischargingtimechange: ${battery.ondischargingtimechange}<br>
+        onlevelchange: ${battery.onlevelchange}<br>
+    `
+}
+updateBatteryStatus(navigator.getBattery())

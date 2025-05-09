@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Battery Information</title>
+</head>
+<body>
+  <h1>Battery Status</h1>
+  <p>Level: <span id="batteryLevel"></span></p>
+  <p>Charging Status: <span id="chargingStatus"></span></p>
+  <p>Charging Time Remaining: <span id="chargingTime"></span></p>
+  <p>Discharging Time Remaining: <span id="dischargingTime"></span></p>
+  <p><a href="index.html">index</a></p>
+
+  <script>
+    function updateBatteryInfo(battery) {
+      const levelElement = document.getElementById('batteryLevel');
+      const chargingStatusElement = document.getElementById('chargingStatus');
+      const chargingTimeElement = document.getElementById('chargingTime');
+      const dischargingTimeElement = document.getElementById('dischargingTime');
+
+      if (levelElement) {
+        levelElement.textContent = (battery.level * 100).toFixed(0) + '%';
+      }
+      if (chargingStatusElement) {
+        chargingStatusElement.textContent = battery.charging ? 'Charging' : 'Discharging';
+      }
+      if (chargingTimeElement) {
+        chargingTimeElement.textContent = battery.chargingTime === Infinity ? 'Unknown' : formatTime(battery.chargingTime);
+      }
+      if (dischargingTimeElement) {
+        dischargingTimeElement.textContent = battery.dischargingTime === Infinity ? 'Unknown' : formatTime(battery.dischargingTime);
+      }
+    }
+
+    function setupBatteryEventListeners(battery) {
+      battery.addEventListener('levelchange', () => {
+        updateBatteryInfo(battery);
+      });
+
+      battery.addEventListener('chargingchange', () => {
+        updateBatteryInfo(battery);
+      });
+
+      battery.addEventListener('chargingtimechange', () => {
+        updateBatteryInfo(battery);
+      });
+
+      battery.addEventListener('dischargingtimechange', () => {
+        updateBatteryInfo(battery);
+      });
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      const remainingMinutes = minutes % 60;
+
+      let formattedTime = '';
+      if (hours > 0) {
+        formattedTime += `${hours} hours `;
+      }
+      if (remainingMinutes >= 0) {
+        formattedTime += `${remainingMinutes} minutes `;
+      }
+      formattedTime += `${remainingSeconds} seconds`;
+      return formattedTime.trim() || '0 seconds';
+    }
+
+    if ('getBattery' in navigator) {
+      navigator.getBattery()
+        .then(battery => {
+          console.log('Battery Info:', battery);
+          updateBatteryInfo(battery);
+          setupBatteryEventListeners(battery);
+        })
+        .catch(error => {
+          console.error('Error getting battery information:', error);
+        });
+    } else {
+      console.log('Battery API is not supported in this browser.');
+    }
+  </script>
+</body>
+</html>
